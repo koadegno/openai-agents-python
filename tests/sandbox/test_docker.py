@@ -2810,10 +2810,12 @@ async def test_docker_resume_applies_current_authority_with_fresh_volume_identit
         manifest: Manifest | None = None,
         exposed_ports: tuple[int, ...] = (),
         network_mode: str | None = None,
+        labels: dict[str, str] | None = None,
         session_id: uuid.UUID | None = None,
     ) -> _StartedContainer:
         _ = (image, exposed_ports)
         assert network_mode is None
+        assert labels == {}
         assert session_id == replacement_session_id
         assert stale_volume.remove_calls == 0
         assert manifest is state.manifest
@@ -4149,9 +4151,11 @@ async def test_docker_resume_resets_workspace_readiness_when_container_is_recrea
         manifest: Manifest | None = None,
         exposed_ports: tuple[int, ...] = (),
         network_mode: str | None = None,
+        labels: dict[str, str] | None = None,
         session_id: uuid.UUID | None = None,
     ) -> object:
         _ = session_id
+        assert labels == {}
         create_calls.append((image, manifest, exposed_ports, network_mode))
         return replacement
 
